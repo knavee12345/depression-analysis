@@ -1,0 +1,221 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Data</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="prediction.css" rel="stylesheet">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+        <script defer src="https://pyscript.net/alpha/pyscript.js"></script>
+        <py-env>
+            - pandas
+            - scikit-learn
+        </py-env>
+
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">Depression Prediction</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="collapsibleNavbar">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="../index.html">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="prediction.html">Depression Prediction</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Exploratory Data Analysis</a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="data.html">Data source</a></li>
+                                <li><a class="dropdown-item" href="analysis.html">Analysis</a></li>
+                                <li><a class="dropdown-item" href="visual.html">Visualization</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <py-script>
+            import pandas as pd
+            import warnings
+            warnings.filterwarnings("ignore")
+            
+            from pyodide.http import open_url
+            
+            from sklearn.ensemble import GradientBoostingClassifier
+            
+            depressed_data=pd.read_csv(open_url("https://raw.githubusercontent.com/knavee12345/knavee12345/main/Certifications/b_depressed.csv"))
+            
+            depressed_data.fillna(method='ffill',inplace=True)
+            
+            depressed_data['Number_children']=depressed_data['Number_children'].apply(lambda x: str(x)+" children")
+            depressed_data['education_level']=depressed_data['education_level'].apply(lambda x: str(x)+" education level")
+            depressed_data['total_members']=depressed_data['total_members'].apply(lambda x: str(x)+" family members")
+            
+            depressed_data=depressed_data[['sex', 'Age', 'Married', 'Number_children', 'education_level',
+            'total_members','depressed']]
+            
+            temp = pd.get_dummies(depressed_data[['Number_children']],drop_first=False)
+            depressed_data = pd.concat([depressed_data,temp],axis=1)
+            depressed_data.drop('Number_children',axis=1,inplace=True)
+            
+            temp = pd.get_dummies(depressed_data[['education_level']],drop_first=False)
+            depressed_data = pd.concat([depressed_data,temp],axis=1)
+            depressed_data.drop('education_level',axis=1,inplace=True)
+            
+            temp = pd.get_dummies(depressed_data[['total_members']],drop_first=False)
+            depressed_data = pd.concat([depressed_data,temp],axis=1)
+            depressed_data.drop('total_members',axis=1,inplace=True)
+            
+            new_data=depressed_data.groupby('depressed',group_keys=None).apply(lambda x: x.sample(238))
+            
+            x = new_data.drop('depressed',axis=1)
+            y = new_data['depressed']
+            
+            Model_best=GradientBoostingClassifier(learning_rate=0.3, max_depth=10, max_features=0.2,min_samples_leaf=60,
+            random_state=100)
+            Model_best.fit(x,y)
+            print()
+            
+        </py-script>
+        <div class="container mt-5 text-white">
+            <div class="display-3" id="status" align="center">Loading.....!</div>
+            <br>
+            <form onsubmit="return false">
+        
+                <div class="form-floating bg-dark text-white">
+                    <select class="form-select bg-dark text-white" id="gender" name="gender">
+                        <option value="0">Male</option>
+                        <option value="1">Female</option>
+                    </select>
+                    <label for="gender" class="form-label">Gender :</label>
+                </div>
+        
+                <br>
+        
+                <div class="form-floating bg-dark text-white">
+                    <select class="form-select bg-dark text-white" id="relation" name="relation">
+                        <option value="0">Single</option>
+                        <option value="1">Couple</option>
+                    </select>
+                    <label for="relation" class="form-label">Relationship Status :</label>
+                </div>
+        
+                <br>
+        
+                <div class="form-floating bg-dark text-white">
+                    <select class="form-select bg-dark text-white" id="revenue" name="revenue">
+                        <option value="1">Income</option>
+                        <option value="0">No Income</option>
+                    </select>
+                    <label for="revenue" class="form-label">Revenue Status :</label>
+                </div>
+        
+                <br>
+        
+                <div class="form-floating bg-dark text-white">
+                    <input type="number" name="age" id="age" class="form-control bg-dark text-white" min="15" max="120"
+                        required>
+                    <label for="age">Age :</label>
+                    <div class="valid-feedback">Valid.</div>
+                    <div class="invalid-feedback">Please fill out this field.</div>
+                </div>
+        
+                <br>
+        
+                <div class="form-floating bg-dark text-white">
+                    <input type="number" name="education" id="education" class="form-control bg-dark text-white" min="0"
+                        max="19" required>
+                    <label for="education">Education Level :</label>
+                    <div class="valid-feedback">Valid.</div>
+                    <div class="invalid-feedback">Please fill out this field.</div>
+                </div>
+        
+                <br>
+        
+                <div class="form-floating bg-dark text-white">
+                    <input type="number" name="children" id="children" class="form-control bg-dark text-white" min="0" max="12"
+                        required>
+                    <label for="children">No of Children :</label>
+                    <div class="valid-feedback">Valid.</div>
+                    <div class="invalid-feedback">Please fill out this field.</div>
+                </div>
+        
+                <br>
+        
+                <div class="form-floating bg-dark text-white">
+                    <input type="number" name="members" id="members" class="form-control bg-dark text-white" min="0" max="12"
+                        required>
+                    <label for="members">Total Family Members :</label>
+                    <div class="valid-feedback">Valid.</div>
+                    <div class="invalid-feedback">Please fill out this field.</div>
+                </div>
+        
+                <br>
+        
+                <div class="d-grid bg-danger">
+                    <button type="submit" class="btn btn-block bg-danger text-white" pys-onClick="data"
+                        id="submit-button">Submit</button>
+                </div>
+        
+            </form>
+        
+        </div>
+        
+        <div class="container mt-3">
+            <div class="mt-4 p-5 text-white rounded" style="background: transparent;">
+                <hr>
+                <p id="result" class="display-1" align="center" style="font-size: 60px;"></p>
+                <hr>
+                <p id="out1" class="display-5" align="center" style="font-size: 40px;"></p>
+                <hr>
+            </div>
+
+        </div>
+        
+        <py-script>
+            pyscript.write("status","Enter Your Details")
+            def data(*args, **kwargs):
+            
+                gender=Element("gender").value
+                age=Element("age").value
+                married=Element("relation").value
+                children=Element("children").value
+                members=Element("members").value
+                education=Element("education").value
+                
+                
+                my_data={'sex':gender, 'Age':age, 'Married':married, '0 children':0, '1 children':0, '10 children':0,
+                '11 children':0, '2 children':0, '3 children':0, '4 children':0, '5 children':0,
+                '6 children':0, '7 children':0, '8 children':0, '9 children':0,
+                '1 education level':0, '10 education level':0, '11 education level':0,
+                '12 education level':0, '13 education level':0, '14 education level':0,
+                '16 education level':0, '17 education level':0, '18 education level':0,
+                '19 education level':0, '2 education level':0, '3 education level':0,
+                '4 education level':0, '5 education level':0, '6 education level':0,
+                '7 education level':0, '8 education level':0, '9 education level':0,
+                '1 family members':0, '10 family members':0, '11 family members':0,
+                '12 family members':0, '2 family members':0, '3 family members':0,
+                '4 family members':0, '5 family members':0, '6 family members':0,
+                '7 family members':0, '8 family members':0, '9 family members':0}
+                
+                my_df=pd.DataFrame(data=my_data.values(),index=my_data.keys()).T
+                
+                my_df[[f"{children} children"]]=1
+                my_df[[f"{education} education level"]]=1
+                my_df[[f"{members} family members"]]=1
+                pyscript.write("result","Result")
+                if Model_best.predict(my_df)[0]==0:
+                    pyscript.write("out1","Not Depressed")
+                else:
+                    pyscript.write("out1","Depressed")
+        
+        </py-script>
+
+    </body>
+</html>

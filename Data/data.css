@@ -1,0 +1,32 @@
+body {
+    background-image: url("background1.jpg");
+    background-size: cover;
+}
+.dataframe {
+    text-align: center;
+    border: none;
+    border-collapse: collapse;
+    color:white;
+    background-color:#686a6b;
+
+    
+
+}
+
+.dataframe td {
+    border: none;
+    padding:13px;
+    
+
+}
+
+.dataframe thead th {
+    text-align: center;
+    padding:13px;
+}
+.dataframe thead{
+    background-color: rgb(45, 44, 44);
+}
+.dataframe tr:nth-child(even){
+    background-color:rgb(93, 91, 91);
+}

@@ -1,0 +1,285 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Analysis</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="analysis.css" rel="stylesheet">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+        <script defer src="https://pyscript.net/alpha/pyscript.js"></script>
+        <py-env>
+            - pandas
+        </py-env>
+
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">Analysis</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="collapsibleNavbar">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="../index.html">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="prediction.html">Depression Prediction</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Exploratory Data Analysis</a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="data.html">Data source</a></li>
+                                <li><a class="dropdown-item" href="analysis.html">Analysis</a></li>
+                                <li><a class="dropdown-item" href="visual.html">Visualization</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <py-script>
+            import pandas as pd
+            from pyodide.http import open_url
+            data=pd.read_csv(open_url("https://raw.githubusercontent.com/knavee12345/knavee12345/main/Certifications/depressed.csv"))
+            data=data.fillna(0)
+            depressed_data=data.query("(mental_health=='Depressed')")
+        </py-script>
+        <div class="btn-group flex-wrap col-sm-12">
+            <button type="button" class="btn btn-dark text-white" data-bs-toggle="modal" data-bs-target="#myModal1">
+                Top 5 Depressed Ages
+            </button>
+            <button type="button" class="btn btn-dark text-white" data-bs-toggle="modal" data-bs-target="#myModal2">
+                Relationship Status
+            </button>
+            <button type="button" class="btn btn-dark text-white" data-bs-toggle="modal" data-bs-target="#myModal3">
+                Childrens Count
+            </button>
+            <button type="button" class="btn btn-dark text-white" data-bs-toggle="modal" data-bs-target="#myModal4">
+                Educational Status
+            </button>
+            <button type="button" class="btn btn-dark text-white" data-bs-toggle="modal" data-bs-target="#myModal5">
+                Incomeless People
+            </button>
+            <button type="button" class="btn btn-dark text-white" data-bs-toggle="modal" data-bs-target="#myModal6">
+                Gender
+            </button>
+            <div class="modal fade" id="myModal1">
+                <div class="modal-dialog modal-dialog-centered modal-lg">
+                    <div class="modal-content">
+        
+                        <!-- Modal Header -->
+                        <div class="modal-header  bg-dark text-white">
+                            <h4 class="modal-title">Top 5 Depressed Ages:</h4>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+        
+                        <!-- Modal body -->
+                        <div class="modal-body bg-dark text-white">
+                            <h1 align="center">
+                                <py-script>
+                                    j=0
+                                    for i in depressed_data.age.value_counts()[:5].index.values:
+                                        print(f"{i}-{round(depressed_data.age.value_counts()[:5].values[j]/len(depressed_data)*100)}%")
+                                        j+=1
+                                </py-script>
+                            </h1>
+                        </div>
+        
+                        <!-- Modal footer -->
+                        <div class="modal-footer bg-dark text-white">
+                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                        </div>
+        
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="myModal2">
+                <div class="modal-dialog modal-dialog-centered modal-lg">
+                    <div class="modal-content">
+        
+                        <!-- Modal Header -->
+                        <div class="modal-header bg-dark text-white">
+                            <h4 class="modal-title">Relationship Status</h4>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+        
+                        <!-- Modal body -->
+                        <div class="modal-body bg-dark text-white">
+                            <h1 align="center">
+                                <py-script>
+                                    j=0
+                                    for i in depressed_data.relationship.value_counts().index.values:
+                                        print(f"{i}-{round(depressed_data.relationship.value_counts().values[j]/len(depressed_data)*100)}%")
+                                        j+=1
+
+                                </py-script>
+                            </h1>
+                        </div>
+        
+                        <!-- Modal footer -->
+                        <div class="modal-footer bg-dark text-white">
+                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                        </div>
+        
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="myModal3">
+                <div class="modal-dialog modal-dialog-centered modal-lg">
+                    <div class="modal-content">
+        
+                        <!-- Modal Header -->
+                        <div class="modal-header bg-dark text-white">
+                            <h4 class="modal-title">Depressed people's Children Count:</h4>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+        
+                        <!-- Modal body -->
+                        <div class="modal-body bg-dark text-white">
+                            <h1 align="center">
+                                <py-script>
+                                    j=0
+                                    for i in depressed_data.number_children.value_counts()[:5].index.values:
+                                        print(f"{i}-{round(depressed_data.number_children.value_counts()[:5].values[j]/len(depressed_data)*100)}%")
+                                        j+=1
+                                </py-script>
+                            </h1>
+                        </div>
+        
+                        <!-- Modal footer -->
+                        <div class="modal-footer bg-dark text-white">
+                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                        </div>
+        
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="myModal4">
+                <div class="modal-dialog modal-dialog-centered modal-lg">
+                    <div class="modal-content">
+        
+                        <!-- Modal Header -->
+                        <div class="modal-header bg-dark text-white">
+                            <h4 class="modal-title">Educational Status:</h4>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+        
+                        <!-- Modal body -->
+                        <div class="modal-body bg-dark text-white">
+                            <h1 align="center">
+                                <py-script>
+                                    j=0
+                                    for i in depressed_data.education_level.value_counts()[:5].index.values:
+                                        print(f"{i}-{round(depressed_data.education_level.value_counts()[:5].values[j]/len(depressed_data)*100)}%")
+                                        j+=1
+                                </py-script>
+                            </h1>
+                        </div>
+        
+                        <!-- Modal footer -->
+                        <div class="modal-footer bg-dark text-white">
+                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                        </div>
+        
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="myModal5">
+                <div class="modal-dialog modal-dialog-centered modal-lg">
+                    <div class="modal-content">
+        
+                        <!-- Modal Header -->
+                        <div class="modal-header bg-dark text-white">
+                            <h4 class="modal-title">Incomeless People:</h4>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+        
+                        <!-- Modal body -->
+                        <div class="modal-body bg-dark text-white">
+                            <h1 align="center">
+                                <py-script>
+                                    no_income=depressed_data.query("(incoming_salary=='No Income')and(incoming_own_farm=='No Income')and(incoming_business=='No Income')and(incoming_no_business=='No Income')and(labor_primary=='No Income')")
+                                    print(f"{round(len(no_income)/len(depressed_data)*100)}%")
+                                </py-script>
+                            </h1>
+                        </div>
+        
+                        <!-- Modal footer -->
+                        <div class="modal-footer bg-dark text-white">
+                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                        </div>
+        
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="myModal6">
+                <div class="modal-dialog modal-dialog-centered modal-lg">
+                    <div class="modal-content">
+        
+                        <!-- Modal Header -->
+                        <div class="modal-header bg-dark text-white">
+                            <h4 class="modal-title">Gender:</h4>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+        
+                        <!-- Modal body -->
+                        <div class="modal-body bg-dark text-white">
+                            <h1 align="center">
+                                <py-script>
+                                    j=0
+                                    for i in depressed_data.sex.value_counts().index.values:
+                                        i="Male" if i=="M" else "Female"
+                                        print(f"{i}-{round(depressed_data.sex.value_counts()[:5].values[j]/len(depressed_data)*100)}%")
+                                        j+=1
+                                    pyscript.write("dreport","Detailed Report")
+                                </py-script>
+                            </h1>
+                        </div>
+        
+                        <!-- Modal footer -->
+                        <div class="modal-footer bg-dark text-white">
+                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                        </div>
+        
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container mt-5">
+            <div class="mt-4 p-5 text-white rounded" align="center" style="background: transparent;">
+                <button type="button" id="dreport" class="btn-lg btn-dark text-white display-1" data-bs-toggle="modal" data-bs-target="#report" style="font-size: 50px;" width="100%">
+                    Loading......!
+                </button>
+                <div class="modal fade" id="report">
+                    <div class="modal-dialog modal-dialog-centered  modal-fullscreen">
+                        <div class="modal-content">
+                
+                            <!-- Modal Header -->
+                            <div class="modal-header bg-dark text-white">
+                                <h4 class="modal-title">Detailed Report</h4>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+                
+                            <!-- Modal body -->
+                            <div class="modal-body bg-dark text-white">
+                                <iframe src="Depression Analysis Report.html" frameborder="0" width="100%" height="100%" title="Depression Analysis Report" align="center">
+                                </iframe>
+                            </div>
+                
+                            <!-- Modal footer -->
+                            <div class="modal-footer bg-dark text-white">
+                                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                            </div>
+                
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+        
+
+    </body>
+</html>

@@ -1,0 +1,286 @@
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Data</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="data.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script defer src="https://pyscript.net/alpha/pyscript.js"></script>
+        <py-env>
+            - pandas
+        </py-env>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-md bg-dark navbar-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Data</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="collapsibleNavbar">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="../index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="prediction.html">Depression Prediction</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Exploratory Data Analysis</a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="data.html">Data source</a></li>
+                            <li><a class="dropdown-item" href="analysis.html">Analysis</a></li>
+                            <li><a class="dropdown-item" href="visual.html">Visualization</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <py-script>
+        import pandas as pd
+        from pyodide.http import open_url
+        data=pd.read_csv(open_url("https://raw.githubusercontent.com/knavee12345/knavee12345/main/Certifications/depressed.csv"))
+        data=data.fillna(0)
+    </py-script>
+    <div class="btn-group flex-wrap col-12">
+        <button type="button" class="btn btn-dark text-white" data-bs-toggle="modal" data-bs-target="#myModal1">
+            Total Observations  
+        </button>
+        <button type="button" class="btn btn-dark text-white" data-bs-toggle="modal" data-bs-target="#myModal2">
+            No of Depressed People
+        </button>
+        <button type="button" class="btn btn-dark text-white" data-bs-toggle="modal" data-bs-target="#myModal3">
+            Percentage
+        </button>
+        <button type="button" class="btn btn-dark text-white" data-bs-toggle="modal" data-bs-target="#myModal4">
+            No of Null Values
+        </button>
+        <button type="button" class="btn btn-dark text-white" data-bs-toggle="modal" data-bs-target="#myModal5">
+            No of Duplicate Values
+        </button>
+        <button type="button" class="btn btn-dark text-white" data-bs-toggle="modal" data-bs-target="#myModal6">
+            No of Columns
+        </button>
+        <div class="modal fade" id="myModal1">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+        
+                    <!-- Modal Header -->
+                    <div class="modal-header  bg-dark text-white">
+                        <h4 class="modal-title">Total Observations:</h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+        
+                    <!-- Modal body -->
+                    <div class="modal-body bg-dark text-white">
+                        <h1 align="center">
+                            <py-script>
+                                len(data)
+                            </py-script>
+                        </h1>
+                    </div>
+        
+                    <!-- Modal footer -->
+                    <div class="modal-footer bg-dark text-white">
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                    </div>
+        
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="myModal2">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+        
+                    <!-- Modal Header -->
+                    <div class="modal-header bg-dark text-white">
+                        <h4 class="modal-title">No of Depressed People:</h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+        
+                    <!-- Modal body -->
+                    <div class="modal-body bg-dark text-white">
+                        <h1 align="center">
+                            <py-script>
+                                depressed_data=data.query("(mental_health=='Depressed')")
+                                len(depressed_data)
+                            </py-script>
+                        </h1>
+                    </div>
+        
+                    <!-- Modal footer -->
+                    <div class="modal-footer bg-dark text-white">
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                    </div>
+        
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="myModal3">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+        
+                    <!-- Modal Header -->
+                    <div class="modal-header bg-dark text-white">
+                        <h4 class="modal-title">Percentage:</h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+        
+                    <!-- Modal body -->
+                    <div class="modal-body bg-dark text-white">
+                        <h1 align="center">
+                            <py-script>
+                                print(f'{round((len(depressed_data)/len(data)*100),2)}%')
+                            </py-script>
+                        </h1>
+                    </div>
+        
+                    <!-- Modal footer -->
+                    <div class="modal-footer bg-dark text-white">
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                    </div>
+        
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="myModal4">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+        
+                    <!-- Modal Header -->
+                    <div class="modal-header bg-dark text-white">
+                        <h4 class="modal-title">No of Null Values:</h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+        
+                    <!-- Modal body -->
+                    <div class="modal-body bg-dark text-white">
+                        <h1 align="center">
+                            <py-script>
+                                data.isna().sum().sum()
+                            </py-script>
+                        </h1>
+                    </div>
+        
+                    <!-- Modal footer -->
+                    <div class="modal-footer bg-dark text-white">
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                    </div>
+        
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="myModal5">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+        
+                    <!-- Modal Header -->
+                    <div class="modal-header bg-dark text-white">
+                        <h4 class="modal-title">No of Duplicate Values:</h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+        
+                    <!-- Modal body -->
+                    <div class="modal-body bg-dark text-white">
+                        <h1 align="center">
+                            <py-script>
+                                data.duplicated().sum()
+                            </py-script>
+                        </h1>
+                    </div>
+        
+                    <!-- Modal footer -->
+                    <div class="modal-footer bg-dark text-white">
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                    </div>
+        
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="myModal6">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+        
+                    <!-- Modal Header -->
+                    <div class="modal-header bg-dark text-white">
+                        <h4 class="modal-title">No of Columns:</h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+        
+                    <!-- Modal body -->
+                    <div class="modal-body bg-dark text-white">
+                        <h1 align="center">
+                            <py-script>
+                                data.shape[1]
+                            </py-script>
+                        </h1>
+                    </div>
+        
+                    <!-- Modal footer -->
+                    <div class="modal-footer bg-dark text-white">
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                    </div>
+        
+                </div>
+            </div>
+        </div>
+    
+    
+    </div>
+    <div class="container mt-3">
+        <div class="mt-4 p-5 text-white rounded" style="background: transparent;">
+            <h1>Dataset</h1>
+           
+            <p>Hi,<br>
+                The original Dataset was published by ,<a href="https://www.kaggle.com/francispython">Frankcc</a> in the following link : <a href="https://www.kaggle.com/datasets/francispython/b-depression">Link Kaggle</a><br>
+                The dataset is involved into the analysis of depression. The data was consists as a study about the life conditions of
+                people who live in rurales zones. Because all the columns were not explicated in this challenge so We can´t understand
+                them. We proceded to delete them or ignoring. 
+            </p>
+        </div>
+    </div>
+    <div class="container mt-3">
+        <div class="mt-4 p-5 text-white rounded " align="center" style="background: transparent;">
+            <button type="button" id="data" class="btn-lg btn-dark text-white display-1" data-bs-toggle="modal" data-bs-target="#report"
+                style="font-size: 50px;" width="100%">
+                Loading.....!
+            </button>
+            <div class="modal fade" id="report">
+                <div class="modal-dialog modal-dialog-centered  modal-fullscreen">
+                    <div class="modal-content">
+            
+                        <!-- Modal Header -->
+                        <div class="modal-header bg-dark text-white">
+                            <h4 class="modal-title">Data</h4>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+            
+                        <!-- Modal body -->
+                        <div class="modal-body bg-dark text-white table-responsive">
+                            <py-script align="center">
+                                pyscript.write("data","View Data")
+                                data.to_html(classes="table-hover table-lg")
+                            </py-script>
+                        </div>
+            
+                        <!-- Modal footer -->
+                        <div class="modal-footer bg-dark text-white">
+                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                        </div>
+            
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+
+</body>
+
+</html>
