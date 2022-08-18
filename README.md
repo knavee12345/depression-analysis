@@ -57,9 +57,9 @@ The dataset is involved into the analysis of depression. The data was consists a
   - PyScript is a Pythonic alternative to Scratch, JSFiddle, and other "easy to use" programming frameworks, with the goal of making the web a friendly, hackable place where anyone can author interesting and interactive applications.
   - PyScript is a meta project that aims to combine multiple open technologies into a framework that allows users to create sophisticated browser applications with Python. It integrates seamlessly with the way the DOM works in the browser and allows users to add Python logic in a way that feels natural both to web and Python developers.
   
->>> #### Notes:  
-  >>> - This is an extremely experimental project, so expect things to break!<br>
-  >>> - PyScript has been only tested on Chrome at the moment.
+> #### Notes:  
+  >> - This is an extremely experimental project, so expect things to break!<br>
+  >> - PyScript has been only tested on Chrome at the moment.
 
 
 
