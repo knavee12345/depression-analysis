@@ -22,7 +22,12 @@
 <a href="https://knavee12345.github.io/depression-analysis/">click here to visit project website</a>
 </p>
 
-### Motive:
+  # Contents:
+  - [Motive](#motive)
+  - [Dataset](#dataset)
+  - [Process](#process)
+  - [Pyscript](#pyscript)
+  ### Motive:
 - Depression is a common illness worldwide, with an estimated 3.8% of the population affected ,including 5% among adults and 5.7% adults older than 60 years.
 - Approximately 280 million people in the world have depression.
 - Depression may become a serious health condition. 
@@ -46,6 +51,15 @@ The dataset is involved into the analysis of depression. The data was consists a
 - Model Training
 - Model Deployment
 - Implement in Website
+  
+### Pyscript:
+  - PyScript is a framework that allows users to create rich Python applications in the browser using HTML's interface and the power of Pyodide, WASM, and modern web technologies. The PyScript framework provides users at every experience level with access to an expressive, easy-to-learn programming language with countless applications.
+  - PyScript is a Pythonic alternative to Scratch, JSFiddle, and other "easy to use" programming frameworks, with the goal of making the web a friendly, hackable place where anyone can author interesting and interactive applications.
+  - PyScript is a meta project that aims to combine multiple open technologies into a framework that allows users to create sophisticated browser applications with Python. It integrates seamlessly with the way the DOM works in the browser and allows users to add Python logic in a way that feels natural both to web and Python developers.
+  
+>>> #### Notes:  
+  >>> - This is an extremely experimental project, so expect things to break!<br>
+  >>> - PyScript has been only tested on Chrome at the moment.
 
 
 
