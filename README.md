@@ -17,7 +17,7 @@
   </tr>
  </table>
 <hr>
-<h1 align="center">Depression Analysis and Prediction Website<h1>
+<h1 align="center">Depression Analysis and Prediction Website</h1>
 <p align=center>
 <a href="https://knavee12345.github.io/depression-analysis/">click here to visit website</a>
 </p>
